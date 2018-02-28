@@ -3,11 +3,11 @@ var logger = require('winston')
 var auth = require('./auth.json')
 var clock = require('./clock/clock.js')
 
-// logger.remove(logger.transports.Console)
-// logger.add(logger.transports.Console, {
-//   colorize: true
-// })
-// logger.level = 'debug'
+logger.remove(logger.transports.Console)
+logger.add(logger.transports.Console, {
+  colorize: true
+})
+logger.level = 'debug'
 
 var bot = new Discord.Client({
   token: auth.token,
