@@ -1,0 +1,23 @@
+{
+  "name": "east-marches-clock-bot",
+  "version": "1.0.0",
+  "description": "A bot to display in-game time for the East Marches Campaign",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mantinone/East-Marches-Clock-Bot.git"
+  },
+  "author": "mantinone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mantinone/East-Marches-Clock-Bot/issues"
+  },
+  "homepage": "https://github.com/mantinone/East-Marches-Clock-Bot#readme",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "winston": "^2.4.0"
+  }
+}
