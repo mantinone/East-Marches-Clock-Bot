@@ -2,8 +2,9 @@
   "name": "east-marches-clock-bot",
   "version": "1.0.0",
   "description": "A bot to display in-game time for the East Marches Campaign",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
+    "start": "node bot.js",
     "test": "test"
   },
   "repository": {
@@ -17,7 +18,9 @@
   },
   "homepage": "https://github.com/mantinone/East-Marches-Clock-Bot#readme",
   "dependencies": {
-    "discord.io": "^2.5.3",
+    "discord.io": "github:woor/discord.io#gateway_v6",
+    "moment": "2.20.1",
+    "moment-timezone": "0.5.14",
     "winston": "^2.4.0"
   }
 }

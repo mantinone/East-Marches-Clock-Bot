@@ -1,3 +1,5 @@
+const moment = require('moment-timezone')
+
 const emMonths = {
   'January': 'Frostmoot' ,
   'February': 'Deepsnow' ,
@@ -13,14 +15,13 @@ const emMonths = {
   'December': 'Fellnight' ,
 }
 
-// document.addEventListener('DOMContentLoaded', ( event ) => {
-//   var butts = window.setInterval(updateClock, 700)
-// })
-//
-// const updateClock = () => {
-//   let clockTag = document.getElementById('clock')
-//   clockTag.innerText = currentGameTime()
-// }
+const printDate = ( section ) => {
+  let theDate = currentGameTime()
+  let firstHalf = theDate.format('Y: ddd,')
+  let month = emMonths[theDate.format('MMMM')]
+  let lastHalf = theDate.format('Do, HH:mm (h:mm A)')
+  return `${firstHalf} ${month} ${lastHalf}`
+}
 
 const currentGameTime = () => {
   let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
@@ -29,8 +30,6 @@ const currentGameTime = () => {
   theDate.subtract(131, 'days')
   theDate.subtract(1777, 'Years')
   return theDate
-  // let firstHalf = theDate.format('Y: ddd,')
-  // let month = emMonths[theDate.format('MMMM')]
-  // let lastHalf = theDate.format('Do, H:mm:ss (h:mm A)')
-  // return `Year ${firstHalf} ${month} ${lastHalf}`
 }
+
+module.exports = {printDate}
