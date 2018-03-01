@@ -27,12 +27,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
     args = args.splice(1)
     switch(cmd) {
-      case 'time':
+      case "time":
+      case "date":
         bot.sendMessage({
           to: channelID,
-          message: 'Now!'
+          message: clock.printDate()
         })
-      break
+        break
     }
   }
 })
