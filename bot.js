@@ -1,7 +1,7 @@
 var Discord = require('discord.io')
 var logger = require('winston')
-var auth = require('./auth.json')
 var clock = require('./clock/clock.js')
+require('dotenv').config()
 
 logger.remove(logger.transports.Console)
 logger.add(logger.transports.Console, {
@@ -10,7 +10,7 @@ logger.add(logger.transports.Console, {
 logger.level = 'debug'
 
 var bot = new Discord.Client({
-  token: auth.token,
+  token: process.env.TOKEN,
   autorun: true
 })
 

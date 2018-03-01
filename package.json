@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mantinone/East-Marches-Clock-Bot#readme",
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "dotenv": "^5.0.1",
     "moment": "2.20.1",
     "moment-timezone": "0.5.14",
     "winston": "^2.4.0"
