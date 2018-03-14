@@ -15,6 +15,11 @@ const emMonths = {
   'December': 'Fellnight' ,
 }
 
+const checkDate = () => {
+  let day = moment.tz('UTC')
+  return day.format('MMMM Do, HH:mm')
+}
+
 const printDate = ( section ) => {
   let theDate = currentGameTime()
   let firstHalf = theDate.format('Y: ddd,')
@@ -32,4 +37,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate}
+module.exports = {printDate, checkDate}
