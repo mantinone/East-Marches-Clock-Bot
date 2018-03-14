@@ -20,6 +20,16 @@ const checkDate = () => {
   return day.format('MMMM Do, HH:mm')
 }
 
+let oldMoment = moment.tz('UTC')
+
+const checkNewDay = () => {
+  let nowMoment = moment.tx('UTC')
+  let oldTime = oldMoment.format('HH')
+  let nowTime = nowMoment.format('HH')
+  oldMoment = nowMoment
+  return nowTime < oldTime
+}
+
 const printDate = ( section ) => {
   let theDate = currentGameTime()
   let firstHalf = theDate.format('Y: ddd,')
@@ -37,4 +47,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate}
+module.exports = {printDate, checkDate, checkNewDay }
