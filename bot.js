@@ -25,7 +25,7 @@ setInterval( () => {
     to: '427869441741684748',
     message: clock.printDate()
   })
-}, 1000*60*30)
+},  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
   if (message.substring(0,1) == '!'){
