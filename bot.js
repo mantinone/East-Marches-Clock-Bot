@@ -51,7 +51,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         bot.sendMessage({
           to: '424793864088453130',
-          message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because because Mona did or said something.`
+          message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because because <@225782923490492417> did or said something.`
         })
         break
     }
