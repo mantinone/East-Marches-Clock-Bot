@@ -41,6 +41,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           to: channelID,
           message: clock.printDate()
         })
+        break
       case "mona":
         bot.deleteMessage({
           channelID: channelID,
