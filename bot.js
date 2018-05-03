@@ -13,7 +13,7 @@ var bot = new Discord.Client({
   token: process.env.TOKEN,
   autorun: true
 })
-
+ 
 bot.on('ready', function (evt) {
   logger.info('Connected')
   logger.info('Logged in as: ')
