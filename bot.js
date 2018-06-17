@@ -25,6 +25,12 @@ setInterval( () => {
     to: '427869441741684748',
     message: clock.printDate()
   })
+  if( clock.checkCrafting()){
+    bot.sendMessage({
+      to: '423358604444172289',
+      message: 'Hello @everyone!  A new crafting week has begun!'
+    })
+  }
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
@@ -54,6 +60,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
+      // case "test":
+      //   bot.sendMessage({
+      //     to: '423358604444172289',
+      //     message: "How do I do this?  @everyone"
+      //   })
+      //   break
     }
   }
 })
