@@ -27,7 +27,7 @@ setInterval( () => {
   })
   if( clock.checkCrafting()){
     bot.sendMessage({
-      to: '423358604444172289',
+      to: '422936057101680640',
       message: 'Hello @everyone!  A new crafting week has begun!'
     })
   }
