@@ -20,14 +20,13 @@ const checkDate = () => {
   return day.format('MMMM Do, HH:mm')
 }
 
-let oldMoment = moment.tz('UTC')
+const checkCrafting = () => {
+  let nowMoment = moment.tz('UTC')
+  let day = nowMoment.format('ddd')
+  let hour = nowMoment.format('HH')
+  let minute = nowMoment.format('mm')
 
-const checkNewDay = () => {
-  let nowMoment = moment.tx('UTC')
-  let oldTime = oldMoment.format('HH')
-  let nowTime = nowMoment.format('HH')
-  oldMoment = nowMoment
-  return nowTime < oldTime
+  return (day == 'Sun') && (hour == '23') && (minute > 29 )
 }
 
 const printDate = ( section ) => {
@@ -47,4 +46,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkNewDay }
+module.exports = {printDate, checkDate, checkCrafting }
