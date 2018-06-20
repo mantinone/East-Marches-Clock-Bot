@@ -42,7 +42,7 @@ setInterval( () => {
   //     }, 1000*60*minutes)
   //   })
 
-  }
+  //}
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
