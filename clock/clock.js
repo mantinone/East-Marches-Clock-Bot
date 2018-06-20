@@ -35,7 +35,7 @@ const testCrafting = () => {
   let hour = nowMoment.format('HH')
   let minute = nowMoment.format('mm')
 
-  let results = { craftTime: (day == 'Sun') && (minute > 29 ), minute: minute}
+  let results = { craftTime: (day == 'Tue') && (minute > 29 ), minute: minute}
   return results
 }
 
