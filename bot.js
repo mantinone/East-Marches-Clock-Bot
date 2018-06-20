@@ -25,22 +25,22 @@ setInterval( () => {
     to: '427869441741684748',
     message: clock.printDate()
   })
-  // if( clock.checkCrafting()){
-  //   bot.sendMessage({
-  //     to: '422936057101680640',
-  //     message: 'Hello @everyone!  A new crafting week has begun!'
-  //   })
-  // }
-  let info = clock.testCrafting())
-  console.log(info);
-  if( info.craftTime ){
-    let minutes = 60 - info.minutes
-    setTimeout( () => {
-      bot.sendMessage({
-        to: '423358604444172289',
-        message: "Here's hoping this is on the hour!"
-      }, 1000*60*minutes)
+  if( clock.checkCrafting()){
+    bot.sendMessage({
+      to: '422936057101680640',
+      message: 'Hello @everyone!  A new crafting week has begun!'
     })
+  }
+  // let info = clock.testCrafting())
+  // console.log(info);
+  // if( info.craftTime ){
+  //   let minutes = 60 - info.minutes
+  //   setTimeout( () => {
+  //     bot.sendMessage({
+  //       to: '423358604444172289',
+  //       message: "Here's hoping this is on the hour!"
+  //     }, 1000*60*minutes)
+  //   })
 
   }
 },  1000*60*30)
