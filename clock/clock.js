@@ -29,6 +29,16 @@ const checkCrafting = () => {
   return (day == 'Sun') && (hour == '23') && (minute > 29 )
 }
 
+const testCrafting = () => {
+  let nowMoment = moment.tz('UTC')
+  let day = nowMoment.format('ddd')
+  let hour = nowMoment.format('HH')
+  let minute = nowMoment.format('mm')
+
+  let results = { craftTime: (day == 'Sun') && (minute > 29 ), minute: minute}
+  return results
+}
+
 const printDate = ( section ) => {
   let theDate = currentGameTime()
   let firstHalf = theDate.format('Y: ddd,')
@@ -46,4 +56,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkCrafting }
+module.exports = {printDate, checkDate, checkCrafting, testCrafting }
