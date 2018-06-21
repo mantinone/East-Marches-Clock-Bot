@@ -34,11 +34,11 @@ setInterval( () => {
   let info = clock.testCrafting()
   //console.log(info);
   if( info.craftTime ){
-    let minutes = 60 - info.minutes
+    let minutes = 60 - info.minute
     setTimeout( () => {
       bot.sendMessage({
         to: '423358604444172289',
-        message: "This hopefully posts on the hour."
+        message: `This hopefully posts on the hour.  Delay of  ${minutes} minutes.  ${1000*60*minutes} milliseconds.`
       })
     }, 1000*60*minutes)
   }
