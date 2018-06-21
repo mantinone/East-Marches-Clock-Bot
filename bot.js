@@ -31,17 +31,16 @@ setInterval( () => {
   //     message: 'Hello @everyone!  A new crafting week has begun!'
   //   })
   // }
-  let info = clock.testCrafting())
-  console.log(info);
+  let info = clock.testCrafting()
+  //console.log(info);
   if( info.craftTime ){
     let minutes = 60 - info.minutes
     setTimeout( () => {
       bot.sendMessage({
         to: '423358604444172289',
-        message: "Here's hoping this is on the hour!"
-      }, 1000*60*minutes)
-    })
-
+        message: "This hopefully posts on the hour."
+      })
+    }, 1000*60*minutes)
   }
 },  1000*60*30)
 
@@ -72,12 +71,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
-      // case "test":
-      //   bot.sendMessage({
-      //     to: '423358604444172289',
-      //     message: "How do I do this?  @everyone"
-      //   })
-      //   break
+      case "test":
+        let info = clock.testCrafting()
+        console.log(info);
+        bot.sendMessage({
+          to: '423358604444172289',
+          message: `${info.craftTime} ${info.minute}`
+        })
+        break
     }
   }
 })
