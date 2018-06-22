@@ -25,23 +25,18 @@ setInterval( () => {
     to: '427869441741684748',
     message: clock.printDate()
   })
-  // if( clock.checkCrafting()){
-  //   bot.sendMessage({
-  //     to: '422936057101680640',
-  //     message: 'Hello @everyone!  A new crafting week has begun!'
-  //   })
-  // }
-  let info = clock.testCrafting()
-  //console.log(info);
-  if( info.craftTime ){
+
+  let info = clock.checkCrafting()
+  if( info.craftBool ){
     let minutes = 60 - info.minute
     setTimeout( () => {
       bot.sendMessage({
-        to: '423358604444172289',
-        message: `This hopefully posts on the hour.  Delay of  ${minutes} minutes.  ${1000*60*minutes} milliseconds.`
+        to: '422936057101680640',
+        message: `Hello @everyone!  A new crafting week has begun!`
       })
     }, 1000*60*minutes)
   }
+
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
@@ -71,13 +66,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
-      case "test":
-        let info = clock.testCrafting()
-        console.log(info);
-        bot.sendMessage({
-          to: '423358604444172289',
-          message: `${info.craftTime} ${info.minute}`
-        })
+      // case "test":
+      //   let info = clock.testCrafting()
+      //   console.log(info);
+      //   bot.sendMessage({
+      //     to: '423358604444172289',
+      //     message: `${info.craftTime} ${info.minute}`
+      //   })
         break
     }
   }
