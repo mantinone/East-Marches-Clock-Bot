@@ -26,16 +26,10 @@ const checkCrafting = () => {
   let hour = nowMoment.format('HH')
   let minute = nowMoment.format('mm')
 
-  return (day == 'Sun') && (hour == '23') && (minute > 29 )
-}
-
-const testCrafting = () => {
-  let nowMoment = moment.tz('UTC')
-  let day = nowMoment.format('ddd')
-  let hour = nowMoment.format('HH')
-  let minute = nowMoment.format('mm')
-  console.log( `Hour: ${hour}, Minute: ${minute}`);
-  let results = { craftTime: (minute > 29 ), minute: minute}
+  let results = {
+    craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
+    minute: minute
+  }
   return results
 }
 
@@ -56,4 +50,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkCrafting, testCrafting }
+module.exports = {printDate, checkDate, checkCrafting }
