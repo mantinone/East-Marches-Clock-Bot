@@ -20,7 +20,7 @@ const checkDate = () => {
   return day.format('MMMM Do, HH:mm')
 }
 
-const checkCrafting = () => {
+const checkAlerts = () => {
   let nowMoment = moment.tz('UTC')
   let day = nowMoment.format('ddd')
   let hour = nowMoment.format('HH')
@@ -50,4 +50,4 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkCrafting }
+module.exports = {printDate, checkDate, checkAlerts }

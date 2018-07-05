@@ -21,22 +21,22 @@ bot.on('ready', function (evt) {
 })
 
 setInterval( () => {
-  bot.sendMessage({
-    to: '427869441741684748',
-    message: clock.printDate()
-  })
+  let info = clock.checkAlerts()
+  let minutes = info.minute > 29 ? 60 - info.minute : 30 - info.minute
 
-  let info = clock.checkCrafting()
-  if( info.craftBool ){
-    let minutes = 60 - info.minute
-    setTimeout( () => {
+  setTimeout( () => {
+    bot.sendMessage({
+      to: '427869441741684748',
+      message: clock.printDate()
+    })
+    if( info.craftBool ){
       bot.sendMessage({
         to: '422936057101680640',
         message: `Hello @everyone!  A new crafting week has begun!`
       })
-    }, 1000*60*minutes)
-  }
-
+    }
+  }, 1000*60*minutes)
+  
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
