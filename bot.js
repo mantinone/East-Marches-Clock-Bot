@@ -36,7 +36,7 @@ setInterval( () => {
       })
     }
   }, 1000*60*minutes)
-  
+
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
@@ -67,7 +67,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         break
       // case "test":
-      //   let info = clock.testCrafting()
+      //    let info = clock.testCrafting()
       //   console.log(info);
       //   bot.sendMessage({
       //     to: '423358604444172289',
