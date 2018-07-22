@@ -69,6 +69,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
       // case "test":
       //    let info = clock.testCrafting()
       //   console.log(info);
+      
       //   bot.sendMessage({
       //     to: '423358604444172289',
       //     message: `${info.craftTime} ${info.minute}`
