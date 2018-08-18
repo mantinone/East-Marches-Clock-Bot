@@ -50,4 +50,10 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkAlerts }
+const getSeasonModifier(){
+  return {
+    mod:{s_x:0,cover:"1d12"}
+  }
+}
+
+module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier }

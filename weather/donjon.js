@@ -130,6 +130,7 @@ weather= {
   ]
 },
 
+//Just HTML formatting.  I can probably just cut this
 fmt= {
   weather:'<table><tr><td width="100">#{image}</td><td><table>#{stats}</table></td></tr>#{desc}</table>',
   image:'<img src="'+image_dir+'/#{image}" alt="" width="100" height="200" />',
@@ -138,17 +139,32 @@ fmt= {
   wind:"#{m} mph (#{k} kph)",
   text:'<tr><td colspan="2" class="value">#{text}</td></tr>'
 };
+
 Object.keys(fmt).each( function(a){
   fmt[a]=new Template(fmt[a])
 });
+
 fmt.hr='<tr><td colspan="2"><hr /></td></tr>';
+
 function init_form(){
   client_form(form_id);
   init_from_cookie();
-  get_weather()}function init_from_cookie(){var a=get_cookie("enc")||{};if(v=a.climate)$("climate").setValue(v);if(v=a.season)$("season").setValue(v);if(v=a["super"])$("super").setValue(v)}
+  get_weather()
+}
+
+function init_from_cookie(){
+  var a=get_cookie("enc")||{};
+  if(v=a.climate)
+    $("climate").setValue(v);
+  if(v=a.season)
+    $("season").setValue(v);
+  if(v=a["super"])
+    $("super").setValue(v)
+}
 
 function set_field(a){
-  save_prefs("enc",a);get_weather()
+  save_prefs("enc",a);
+  get_weather()
 }
 
 function get_weather(){
