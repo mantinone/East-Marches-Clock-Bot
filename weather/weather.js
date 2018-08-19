@@ -1,23 +1,26 @@
-var clock = require('./clock/clock.js')
-var dice = require('dice.js')
+const clock = require('../clock/clock.js')
+const dice = require('./dice.js')
+const select = require('./select.js')
 const CLIMATE = 'temperate'
 const SUPERNATURALCHANCE = 5
 
 const weather= {
   base:{prec:0,wind:"r1.5"},
-  warm:{
-    mod:{t_base:80,t_dev:20,s_dev:40},
-    forecast:{
-      dice:"1d100","01-70":{},
-      "71-90":{wind:"+1"},
-      "91-99":{wind:"+3"},
-      "100":{prec:31,temp:"-10"}
-    }
-  },
+  // warm:{
+  //   mod:{t_base:80,t_dev:20,s_dev:40},
+  //   forecast:{
+  //     dice:"1d100",
+  //     "01-70":{},
+  //     "71-90":{wind:"+1"},
+  //     "91-99":{wind:"+3"},
+  //     "100":{prec:31,temp:"-10"}
+  //   }
+  // },
   temperate:{
     mod:{t_base:40,t_dev:20,s_dev:20},
     forecast:{
-      dice:"1d100","01-70":{},
+      dice:"1d100",
+      "01-70":{},
       "71-75":{temp:"+10"},
       "76-80":{temp:"-10"},
       "81-90":{prec:"1d100"},
@@ -25,29 +28,30 @@ const weather= {
       "100":{prec:"1d70 + 30",temp:"-10",wind:"+4"}
     }
   },
-  cold:{
-    mod:{t_base:0,t_dev:20,s_dev:40},
-    forecast:{
-      dice:"1d100","01-70":{},
-      "71-73":{temp:"+10"},
-      "74-80":{temp:"-10"},
-      "81-90":{prec:"1d100"},
-      "91-99":{prec:"1d70 + 30",temp:"-10",wind:"+3"},
-      "100":{prec:"1d70 + 30",temp:"-10",wind:"+4"}
-    }
-  },
-  spring:{
-    mod:{s_x:0,cover:"1d10"}
-  },
-  summer:{
-    mod:{s_x:1,cover:"1d6"}
-  },
-  autumn:{
-    mod:{s_x:0,cover:"1d12"}
-  },
-  winter:{
-    mod:{s_x:-1,cover:"1d20"}
-  },
+  // cold:{
+  //   mod:{t_base:0,t_dev:20,s_dev:40},
+  //   forecast:{
+  //     dice:"1d100",
+  //     "01-70":{},
+  //     "71-73":{temp:"+10"},
+  //     "74-80":{temp:"-10"},
+  //     "81-90":{prec:"1d100"},
+  //     "91-99":{prec:"1d70 + 30",temp:"-10",wind:"+3"},
+  //     "100":{prec:"1d70 + 30",temp:"-10",wind:"+4"}
+  //   }
+  // },
+  // spring:{
+  //   mod:{s_x:0,cover:"1d10"}
+  // },
+  // summer:{
+  //   mod:{s_x:1,cover:"1d6"}
+  // },
+  // autumn:{
+  //   mod:{s_x:0,cover:"1d12"}
+  // },
+  // winter:{
+  //   mod:{s_x:-1,cover:"1d20"}
+  // },
   supernatural:{
     clear:[
       {super_desc:"Celestial Clarity"},
@@ -135,29 +139,40 @@ const weather= {
 
 //Suernatural ranges, 0, 5, 20, 50
 const get_weather = () => {
-  var climate=CLIMATE
-  season=clock.getSeasonModifier()
-  supernaturalChance=SUPERNATURALCHANCE
-  wData={climate:climate,season:season};
-  wData=mod_weather(wData,weather.base);
-  wData=mod_weather(wData,weather[climate].mod);
-  wData=mod_weather(wData,weather[season].mod);
-  wData.t_base+=wData.s_dev*c.s_x;
-  wData.temp=wData.t_base+dice.rand(wData.t_dev);
-  climate=weather[climate].forecast;
-  wData=mod_weather(wData,select_from_table(climate));
-  if(dice.rand(100)<supernaturalChance)
-  if(supernaturalChance=weather.supernatural[weather_type(wData)])
-      wData=mod_weather(wData,select_from_list(supernaturalChance));
-  wData=desc_weather(c);
-  if(!wData.image)wData.image=get_image(wData);
-  wData=fmt_weather(wData);
+  var climate = CLIMATE
+  season = clock.getSeasonModifier()
+  supernaturalChance = SUPERNATURALCHANCE
+  wData = {climate:climate,season:season};
+
+  wData = mod_weather(wData,weather.base); //Adds mods to wData
+  wData = mod_weather(wData,weather[climate].mod);
+  wData = mod_weather(wData,weather[season].mod);
+
+  wData.t_base += wData.s_dev*wData.s_x; //Modifies tbase up or down 20 degrees based on season
+  wData.temp = wData.t_base+dice.rand(wData.t_dev);
+
+  climate = weather[climate].forecast; //This sub object randomly modifies temp up or down, or determines chance of storms and precipitation
+
+  wData = mod_weather( wData, select.select_from_table(climate) );
+
+  if(dice.rand(100)<supernaturalChance){
+    let supernaturalArray = weather.supernatural[weather_type(wData)]
+    if( supernaturalArray )
+        wData = mod_weather( wData,select_from_list( supernaturalArray ) );
+  }
+
+  wData = desc_weather(c);
+
+  //if(!wData.image) wData.image = get_image(wData);
+
+  wData = fmt_weather(wData);
   //return All this shit as text formatted for a Discord post
 }
 
 //base:{prec:0,wind:"r1.5"}
 //mod:{t_base:40,t_dev:20,s_dev:20}
 //mod:{s_x:0,cover:"1d12"}
+//Adds modifiers to the weather object.  Straight number, object, rolls dice, or flat bonus
 const mod_weather = (wData,modifier) => {
   Object.keys(modifier).forEach( const(i){
     //Creating a new key on the wDate object
@@ -168,9 +183,9 @@ const mod_weather = (wData,modifier) => {
           ? dice.rand(parseFloat(match[1]))
           : /^\d+d\d+/.exec(modifier[i]) //dice!  4d6, etc
             ? parseInt(dice.roll_dice(modifier[i]))
-            : (match=/^\+(\d+)/.exec(modifier[i]))
+            : (match=/^\+(\d+)/.exec(modifier[i])) //+4 etc.  Bonus
               ? zero(wData[i])+parseInt(match[1])
-              : (match=/^-(\d+)/.exec(modifier[i]))
+              : (match=/^-(\d+)/.exec(modifier[i])) //-4 etc.
                 ? zero(wData[i])-parseInt(match[1])
                 : modifier[i]
         : Object.clone(modifier[i])
@@ -184,30 +199,31 @@ const zero(a){
     0
 }
 
-const weather_type = (a) => {
-  var b;
-  b=a.prec==0
-    ? a.wind==0
+//Looks at weather details and comes up with a description.
+const weather_type = (wData) => {
+  var result;
+  result=wData.prec==0
+    ? wData.wind==0
       ? "clear"
       : "windy"
-    : a.prec<=30
+    : wData.prec<=30
       ? "fog"
-      : a.prec<=90
-        ? a.temp<=30
+      : wData.prec<=90
+        ? wData.temp<=30
           ? "snow"
           : "rain"
-      : a.temp<=30
+      : wData.temp<=30
         ? "sleet"
-        : a.temp<=70
+        : wData.temp<=70
           ? "hail"
           : "rain";
-  if(a.wind>=3)
-    b=/(rain|hail)/i.exec(b)
+  if(wData.wind>=3)
+    result=/(rain|hail)/i.exec(b)
       ? "thunderstorm"
       : /(snow|sleet)/i.exec(b)
         ? "snowstorm"
         : "windstorm";
-  return b
+  return result
 }
 
 const desc_weather = (a) => {

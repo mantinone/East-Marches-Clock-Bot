@@ -146,4 +146,4 @@
   }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-module.exports = {rand, roll_dice}
+module.exports = {rand, roll_dice, rd_dice}
