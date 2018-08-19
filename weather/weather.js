@@ -2,7 +2,7 @@ const clock = require('../clock/clock.js')
 const dice = require('./dice.js')
 const select = require('./select.js')
 const CLIMATE = 'temperate'
-const SUPERNATURALCHANCE = 5
+const SUPERNATURALCHANCE = 50
 
 const weather= {
   base:{prec:0,wind:"r1.5"},
@@ -40,18 +40,18 @@ const weather= {
   //     "100":{prec:"1d70 + 30",temp:"-10",wind:"+4"}
   //   }
   // },
-  // spring:{
-  //   mod:{s_x:0,cover:"1d10"}
-  // },
-  // summer:{
-  //   mod:{s_x:1,cover:"1d6"}
-  // },
-  // autumn:{
-  //   mod:{s_x:0,cover:"1d12"}
-  // },
-  // winter:{
-  //   mod:{s_x:-1,cover:"1d20"}
-  // },
+  spring:{
+    mod:{s_x:0,cover:"1d10"}
+  },
+  summer:{
+    mod:{s_x:1,cover:"1d6"}
+  },
+  autumn:{
+    mod:{s_x:0,cover:"1d12"}
+  },
+  winter:{
+    mod:{s_x:-1,cover:"1d20"}
+  },
   supernatural:{
     clear:[
       {super_desc:"Celestial Clarity"},
@@ -138,9 +138,9 @@ const weather= {
 }
 
 //Suernatural ranges, 0, 5, 20, 50
-const get_weather = () => {
+const getWeather = () => {
   var climate = CLIMATE
-  season = clock.getSeasonModifier()
+  season = "autumn"//clock.getSeasonModifier()
   supernaturalChance = SUPERNATURALCHANCE
   wData = {climate:climate,season:season};
 
@@ -158,9 +158,10 @@ const get_weather = () => {
   if(dice.rand(100)<supernaturalChance){
     let supernaturalArray = weather.supernatural[weather_type(wData)]
     if( supernaturalArray )
-        wData = mod_weather( wData,select_from_list( supernaturalArray ) );
+        wData = mod_weather( wData,select.select_from_list( supernaturalArray ) );
   }
 
+  return wData
   wData = desc_weather(c);
 
   //if(!wData.image) wData.image = get_image(wData);
@@ -169,12 +170,9 @@ const get_weather = () => {
   //return All this shit as text formatted for a Discord post
 }
 
-//base:{prec:0,wind:"r1.5"}
-//mod:{t_base:40,t_dev:20,s_dev:20}
-//mod:{s_x:0,cover:"1d12"}
 //Adds modifiers to the weather object.  Straight number, object, rolls dice, or flat bonus
 const mod_weather = (wData,modifier) => {
-  Object.keys(modifier).forEach( const(i){
+  Object.keys(modifier).forEach( (i) => {
     //Creating a new key on the wDate object
     wData[i]= typeof modifier[i] === "number"
       ? modifier[i]
@@ -193,7 +191,7 @@ const mod_weather = (wData,modifier) => {
   return wData
 }
 
-const zero(a){
+const zero = (a) => {
   return typeof a === "number" ?
     a:
     0
@@ -218,9 +216,9 @@ const weather_type = (wData) => {
           ? "hail"
           : "rain";
   if(wData.wind>=3)
-    result=/(rain|hail)/i.exec(b)
+    result=/(rain|hail)/i.exec(result)
       ? "thunderstorm"
-      : /(snow|sleet)/i.exec(b)
+      : /(snow|sleet)/i.exec(result)
         ? "snowstorm"
         : "windstorm";
   return result
@@ -426,3 +424,5 @@ const fmt_text = (a) => {
 const eval_fmt = (a,b) => {
   return fmt[a].evaluate(b)
 }
+
+module.exports = { getWeather }

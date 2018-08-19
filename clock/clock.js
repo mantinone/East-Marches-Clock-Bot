@@ -50,7 +50,7 @@ const currentGameTime = () => {
   return theDate
 }
 
-const getSeasonModifier(){
+const getSeasonModifier = () => {
   return {
     mod:{s_x:0,cover:"1d12"}
   }

@@ -69,4 +69,4 @@ function res_value(a){
 function des_obj(a,b){
   if(!Object.isUndefined(a))if(Object.isUndefined(b))return a;else if(b.length==0)return a;else{var c=b.shift();if(!Object.isUndefined(a[c]))return b.length?des_obj(a[c],b):a[c]}};
 
-module.exports = { select_from_table, select_from_table }
+module.exports = { select_from_table, select_from_list }
