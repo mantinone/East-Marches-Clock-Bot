@@ -1,4 +1,5 @@
 var clock = require('./clock/clock.js')
+var dice = require('dice.js')
 const CLIMATE = 'temperate'
 const SUPERNATURALCHANCE = 5
 
@@ -133,7 +134,7 @@ const weather= {
 }
 
 //Suernatural ranges, 0, 5, 20, 50
-function get_weather(){
+const get_weather = () => {
   var climate=CLIMATE
   season=clock.getSeasonModifier()
   supernaturalChance=SUPERNATURALCHANCE
@@ -142,9 +143,10 @@ function get_weather(){
   wData=mod_weather(wData,weather[climate].mod);
   wData=mod_weather(wData,weather[season].mod);
   wData.t_base+=wData.s_dev*c.s_x;
-  wData.temp=wData.t_base+rand(wData.t_dev);climate=weather[climate].forecast;
+  wData.temp=wData.t_base+dice.rand(wData.t_dev);
+  climate=weather[climate].forecast;
   wData=mod_weather(wData,select_from_table(climate));
-  if(rand(100)<supernaturalChance)
+  if(dice.rand(100)<supernaturalChance)
   if(supernaturalChance=weather.supernatural[weather_type(wData)])
       wData=mod_weather(wData,select_from_list(supernaturalChance));
   wData=desc_weather(c);
@@ -153,32 +155,36 @@ function get_weather(){
   //return All this shit as text formatted for a Discord post
 }
 
-function mod_weather(a,b){
-  Object.keys(b).each( function(d){
-    a[d]=Object.isNumber(b[d])
-      ? b[d]
-      : Object.isString(b[d])
-        ? (match=/^r(\d+\.\d+|\d+)/.exec(b[d]))
-          ? rand(parseFloat(match[1]))
-          : /^\d+d\d+/.exec(b[d])
-            ? parseInt(roll_dice(b[d]))
-            : (match=/^\+(\d+)/.exec(b[d]))
-              ? zero(a[d])+parseInt(match[1])
-              : (match=/^-(\d+)/.exec(b[d]))
-                ? zero(a[d])-parseInt(match[1])
-                : b[d]
-        : Object.clone(b[d])
+//base:{prec:0,wind:"r1.5"}
+//mod:{t_base:40,t_dev:20,s_dev:20}
+//mod:{s_x:0,cover:"1d12"}
+const mod_weather = (wData,modifier) => {
+  Object.keys(modifier).forEach( const(i){
+    //Creating a new key on the wDate object
+    wData[i]= typeof modifier[i] === "number"
+      ? modifier[i]
+      : typeof modifier[i] === "string"
+        ? (match=/^r(\d+\.\d+|\d+)/.exec(modifier[i])) //such as r1.5
+          ? dice.rand(parseFloat(match[1]))
+          : /^\d+d\d+/.exec(modifier[i]) //dice!  4d6, etc
+            ? parseInt(dice.roll_dice(modifier[i]))
+            : (match=/^\+(\d+)/.exec(modifier[i]))
+              ? zero(wData[i])+parseInt(match[1])
+              : (match=/^-(\d+)/.exec(modifier[i]))
+                ? zero(wData[i])-parseInt(match[1])
+                : modifier[i]
+        : Object.clone(modifier[i])
   });
-  return a
+  return wData
 }
 
-function zero(a){
-  return Object.isNumber(a) ?
+const zero(a){
+  return typeof a === "number" ?
     a:
     0
 }
 
-function weather_type(a){
+const weather_type = (a) => {
   var b;
   b=a.prec==0
     ? a.wind==0
@@ -204,7 +210,7 @@ function weather_type(a){
   return b
 }
 
-function desc_weather(a){
+const desc_weather = (a) => {
   a=desc_prec(a);
   a=desc_temp(a);
   a=desc_wind(a);
@@ -220,7 +226,7 @@ function desc_weather(a){
       a.desc+=", "+a.prec_desc;
       a.text=get_text("prec",a.prec_desc,a.text)
     }a.text=get_text("temp",a.temp_desc,a.text);
-    if(/thunderstorm/i.exec(a.desc)&&rand(10)==0){
+    if(/thunderstorm/i.exec(a.desc)&&dice.rand(10)==0){
       a.desc+=", Tornado";a.text=get_text("wind","tornado",
       a.text)
     }
@@ -230,7 +236,11 @@ function desc_weather(a){
     else if(a.wind>=1)a.desc="Windy";
     else{
       if(a.temp<32)a.cover-=Math.floor((32-a.temp)/4);
-      a.desc=a.cover>=10?"Overcast":a.cover>=6?"Cloudy":"Clear"
+      a.desc=a.cover>=10
+        ?"Overcast"
+        :a.cover>=6
+          ?"Cloudy"
+          :"Clear"
     }
     a.text=get_text("prec",a.prec_desc,a.text);
     a.text=get_text("temp",a.temp_desc,a.text);
@@ -238,7 +248,7 @@ function desc_weather(a){
   }return a
 }
 
-function desc_prec(a){
+const desc_prec = (a) => {
   a.prec_desc=a.prec==0
     ? ""
     : a.prec<=30
@@ -263,9 +273,9 @@ function desc_prec(a){
   return a
 }
 
-function desc_temp(a){
+const desc_temp = (a) => {
   a.temp_f=a.temp;
-  a.temp_l=a.temp_f-10-rand(10);
+  a.temp_l=a.temp_f-10-dice.rand(10);
   a.temp_high=fmt_temp(a.temp_f);
   a.temp_low=fmt_temp(a.temp_l);
   var b=Math.floor(a.t_dev/3),
@@ -294,25 +304,25 @@ function desc_temp(a){
   return a
 }
 
-function fmt_temp(a){
+const fmt_temp = (a) => {
   var b=Math.floor((a-32)*5/9);
   return eval_fmt("temp",{f:a,c:b})
 }
 
-function desc_wind(a){
+const desc_wind = (a) => {
   var b=weather.wind_data[a.wind];
   a.wind_desc=b.desc;
-  a.wind_mph=roll_dice(b.mph);
+  a.wind_mph=dice.roll_dice(b.mph);
   a.wind_speed=fmt_speed(a.wind_mph);
   return a
 }
 
-function fmt_speed(a){
+const fmt_speed = (a) => {
   var b=Math.floor(a*1.609);
   return eval_fmt("wind",{m:a,k:b})
 }
 
-function desc_storm(a){
+const desc_storm = (a) => {
   if(a.prec_type=="rain")
     if(a.wind==5)
       return"Hurricane";
@@ -331,20 +341,20 @@ function desc_storm(a){
           else if(a.wind==3)return"Duststorm"
 }
 
-function get_text(a,b,d){
+const get_text = (a,b,d) => {
   if(a&&b&&(div=$(text_id(a,b))))d.push(div.innerHTML);
   return d
 }
 
-function text_id(a,b){
+const text_id = (a,b) => {
   return[a,clean_type(b)].join("-")
 }
 
-function clean_type(a){
+const clean_type = (a) => {
   return a.toLowerCase().replace(/['"]/g,"").replace(/ /g,"_")
 }
 
-function get_image(a){
+const get_image = (a) => {
   for(i=0;i<weather.image_list.length;i++){
     var b=weather.image_list[i];
     if(b.regex.exec(a.desc))return b.image
@@ -352,7 +362,7 @@ function get_image(a){
   return"clear.jpg"
 }
 
-function fmt_weather(a){
+const fmt_weather = (a) => {
   a={
     image:eval_fmt("image",{image:a.image}),
     stats:fmt_stats(a),
@@ -361,7 +371,7 @@ function fmt_weather(a){
   return eval_fmt("weather",a)
 }
 
-function fmt_stats(a){
+const fmt_stats = (a) => {
   var b=[fmt_stat("Description",a.desc)];
 
   if(a.temp_desc){
@@ -380,23 +390,23 @@ function fmt_stats(a){
   return b.join("")
 }
 
-function fmt_stat(a,b){
+const fmt_stat = (a,b) => {
   if(!b) return"";
 
   return eval_fmt("stat",{key:a,value:b})
 }
 
-function fmt_desc(a){
+const fmt_desc = (a) => {
   list=a.map(fmt_text);
 
   return fmt.hr+list.join("")
 }
 
-function fmt_text(a){
+const fmt_text = (a) => {
   if(!a)return"";
   return eval_fmt("text",{text:a})
 }
 
-function eval_fmt(a,b){
+const eval_fmt = (a,b) => {
   return fmt[a].evaluate(b)
 }
