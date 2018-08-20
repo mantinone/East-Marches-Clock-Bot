@@ -238,125 +238,133 @@ const desc_weather = (wData) => {
     if( wData.prec_note ){
       wData.desc += ", " + wData.prec_desc;
       wData.text = get_text( "prec", wData.prec_desc, wData.text )
-    }wData.text = get_text( "temp", wData.temp_desc, wData.text );
+    }
+    wData.text = get_text( "temp", wData.temp_desc, wData.text );
     if( /thunderstorm/i.exec( wData.desc ) && dice.rand(10) == 0 ){
       wData.desc += ", Tornado";
       wData.text = get_text( "wind","tornado", wData.text )
     }
   }else{
-    if( wData.prec_desc )wData.desc = wData.prec_desc;
+    if( wData.prec_desc ) wData.desc = wData.prec_desc;
     else if( wData.wind >= 3 ) wData.desc = "Windstorm";
     else if( wData.wind >= 1) wData.desc = "Windy";
     else{
       if( wData.temp < 32 ) wData.cover -= Math.floor(( 32 - wData.temp )/4 );
+
       wData.desc = wData.cover >= 10
-        ?"Overcast"
-        :wData.cover >= 6
-          ?"Cloudy"
-          :"Clear"
+        ? "Overcast"
+        : wData.cover >= 6
+          ? "Cloudy"
+          : "Clear"
     }
-    wData.text = get_text( "prec", wData.prec_desc,wData.text );
-    wData.text = get_text( "temp", wData.temp_desc,wData.text );
-    wData.text = get_text( "wind", wData.wind_desc,wData.text )
-  }return wData
+    wData.text = get_text( "prec", wData.prec_desc, wData.text );
+    wData.text = get_text( "temp", wData.temp_desc, wData.text );
+    wData.text = get_text( "wind", wData.wind_desc, wData.text )
+  }
+  return wData
 }
 
-const desc_prec = (a) => {
-  a.prec_desc=a.prec==0
+const desc_prec = (wData) => {
+  wData.prec_desc = wData.prec==0
     ? ""
-    : a.prec<=30
-      ? "Fog":a.prec<=90
-        ? a.temp<=30
+    : wData.prec<=30
+      ? "Fog"
+      : wData.prec<=90
+        ? wData.temp<=30
           ? "Snow"
           : "Rain"
-      : a.temp<=30
+      : wData.temp<=30
         ? "Sleet"
-        : a.temp<=70
+        : wData.temp<=70
           ? "Hail"
           : "Rain";
-  if(/(fog)/i.exec(a.prec_desc))
-    a.prec_type="fog";
-  else if(/(rain|hail)/i.exec(a.prec_desc))
-    a.prec_type="rain";
-  else if(/(snow|sleet)/i.exec(a.prec_desc))
-    a.prec_type="snow";
-  if(/(fog|hail|sleet)/i.exec(a.prec_desc))
-    a.prec_note=true;
+  if(/(fog)/i.exec(wData.prec_desc))
+    wData.prec_type="fog";
+  else if(/(rain|hail)/i.exec(wData.prec_desc))
+    wData.prec_type="rain";
+  else if(/(snow|sleet)/i.exec(wData.prec_desc))
+    wData.prec_type="snow";
+  if(/(fog|hail|sleet)/i.exec(wData.prec_desc))
+    wData.prec_note=true;
 
-  return a
+  return wData
 }
 
-const desc_temp = (a) => {
-  a.temp_f=a.temp;
-  a.temp_l=a.temp_f-10-dice.rand(10);
-  a.temp_high=fmt_temp(a.temp_f);
-  a.temp_low=fmt_temp(a.temp_l);
-  var b=Math.floor(a.t_dev/3),
-  d=a.t_base+b;
-  b=a.t_base+a.t_dev-b;
+const desc_temp = (wData) => {
+  wData.temp_f = wData.temp;
+  wData.temp_l = wData.temp_f - 10 - dice.rand(10);
+  wData.temp_high = fmt_temp(wData.temp_f);
+  wData.temp_low = fmt_temp(wData.temp_l);
 
-  a.temp_desc=a.temp_f<-20?
-    "Extreme Cold":
-    a.temp_f<0
+  var avgTempRange = Math.floor(wData.t_dev/3),
+  coldRange = wData.t_base + avgTempRange;
+  warmRange = wData.t_base + wData.t_dev - avgTempRange;
+
+  wData.temp_desc = wData.temp_f<-20
+    ? "Extreme Cold"
+    : wData.temp_f<0
       ? "Severe Cold"
-      : a.temp_f<40
+      : wData.temp_f<40
         ? "Cold"
-        : a.temp_f>140
+        : wData.temp_f>140
           ? "Extreme Heat"
-          : a.temp_f>110
+          : wData.temp_f>110
             ? "Severe Heat"
-            : a.temp_f>90
+            : wData.temp_f>90
               ? "Very Hot"
               : "Moderate";
 
-  a.temp_rel=a.temp_f<d?
-    "Colder than normal":a.temp_f>b?
-      "Warmer than normal":
-      "Normal";
+  wData.temp_rel=wData.temp_f< coldRange
+    ? "Colder than normal"
+    : wData.temp_f > warmRange
+      ? "Warmer than normal"
+      : "Normal";
 
-  return a
+  return wData
 }
 
-const fmt_temp = (a) => {
-  var b=Math.floor((a-32)*5/9);
-  return eval_fmt("temp",{f:a,c:b})
+const fmt_temp = (tempF) => {
+  var tempC=Math.floor((tempF-32)*5/9);
+  return {f:tempF,c:tempC}
 }
 
-const desc_wind = (a) => {
-  var b=weather.wind_data[a.wind];
-  a.wind_desc=b.desc;
-  a.wind_mph=dice.roll_dice(b.mph);
-  a.wind_speed=fmt_speed(a.wind_mph);
-  return a
+const desc_wind = (wData) => {
+  var b=weather.wind_data[wData.wind];
+  wData.wind_desc=b.desc;
+  wData.wind_mph=dice.roll_dice(b.mph);
+  wData.wind_speed=fmt_speed(wData.wind_mph);
+  return wData
 }
 
 const fmt_speed = (a) => {
   var b=Math.floor(a*1.609);
-  return eval_fmt("wind",{m:a,k:b})
+  return {m:a,k:b}
 }
 
-const desc_storm = (a) => {
-  if(a.prec_type=="rain")
-    if(a.wind==5)
+const desc_storm = (wData) => {
+  if(wData.prec_type=="rain")
+    if(wData.wind==5)
       return"Hurricane";
-    else if(a.wind==4)
+    else if(wData.wind==4)
       return"Severe Thunderstorm";
     else{
-      if(a.wind==3)
+      if(wData.wind==3)
         return"Thunderstorm"}
-      else if(a.prec_type=="snow")
-        if(a.wind>=4)
+      else if(wData.prec_type=="snow")
+        if(wData.wind>=4)
           return"Blizzard";
         else{
-          if(a.wind==3)return"Snowstorm"
-        }else if(a.climate=="warm")
-          if(a.wind>=4)return"Greater Duststorm";
-          else if(a.wind==3)return"Duststorm"
+          if(wData.wind==3)return"Snowstorm"
+        }//else if(wData.climate=="warm")
+        //   if(wData.wind>=4)return"Greater Duststorm";
+        //   else if(wData.wind==3)return"Duststorm"
 }
 
-const get_text = ( a, b, d ) => {
-  if( a && b && ( div=$(text_id(a,b)))) d.push(div.innerHTML);
-  return d
+const get_text = ( prefix, type, textArray ) => {
+  if( prefix && type && ( data= descripttion[text_id( prefix, type )] )) {
+    textArray.push(div.innerHTML);
+  }
+  return textArray
 }
 
 const text_id = (a,b) => {
@@ -367,13 +375,13 @@ const clean_type = (a) => {
   return a.toLowerCase().replace(/['"]/g,"").replace(/ /g,"_")
 }
 
-const get_image = (a) => {
-  for(i=0;i<weather.image_list.length;i++){
-    var b=weather.image_list[i];
-    if(b.regex.exec(a.desc))return b.image
-  }
-  return"clear.jpg"
-}
+// const get_image = (a) => {
+//   for(i=0;i<weather.image_list.length;i++){
+//     var b=weather.image_list[i];
+//     if(b.regex.exec(a.desc))return b.image
+//   }
+//   return"clear.jpg"
+// }
 
 const fmt_weather = (a) => {
   a={
