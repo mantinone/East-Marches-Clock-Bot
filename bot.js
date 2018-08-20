@@ -67,9 +67,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
-      case "test":
-         console.log(theWeather.getWeather())
-        break
+      // case "test":
+      //    console.log(theWeather.getWeather())
+      //   break
     }
   }
 })

@@ -2,7 +2,7 @@ const clock = require('../clock/clock.js')
 const dice = require('./dice.js')
 const select = require('./select.js')
 const CLIMATE = 'temperate'
-const SUPERNATURALCHANCE = 50
+const SUPERNATURALCHANCE = 5
 
 const weather= {
   base:{prec:0,wind:"r1.5"},
@@ -140,7 +140,7 @@ const weather= {
 //Suernatural ranges, 0, 5, 20, 50
 const getWeather = () => {
   var climate = CLIMATE
-  season = "autumn"//clock.getSeasonModifier()
+  season = "spring"//clock.getSeasonModifier()
   supernaturalChance = SUPERNATURALCHANCE
   wData = {climate:climate,season:season};
 
@@ -148,7 +148,7 @@ const getWeather = () => {
   wData = mod_weather(wData,weather[climate].mod);
   wData = mod_weather(wData,weather[season].mod);
 
-  wData.t_base += wData.s_dev*wData.s_x; //Modifies tbase up or down 20 degrees based on season
+  wData.t_base += Math.floor(wData.s_dev*clock.getSeasonModifier()); //Modifies tbase up or down 20 degrees based on season
   wData.temp = wData.t_base+dice.rand(wData.t_dev);
 
   climate = weather[climate].forecast; //This sub object randomly modifies temp up or down, or determines chance of storms and precipitation

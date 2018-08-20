@@ -50,10 +50,10 @@ const currentGameTime = () => {
   return theDate
 }
 
-const getSeasonModifier = () => {
-  return {
-    mod:{s_x:0,cover:"1d12"}
-  }
+const getSeasonModifier = ( day ) => {
+  let radianConversion = Math.PI/182
+  let dayOfYear = currentGameTime().format("DDD")
+  return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 
 module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier }
