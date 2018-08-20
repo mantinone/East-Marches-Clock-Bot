@@ -1,6 +1,7 @@
 const clock = require('../clock/clock.js')
 const dice = require('./dice.js')
 const select = require('./select.js')
+const descriptions = require('./descriptions.js')
 const CLIMATE = 'temperate'
 const SUPERNATURALCHANCE = 5
 
@@ -161,10 +162,7 @@ const getWeather = () => {
         wData = mod_weather( wData,select.select_from_list( supernaturalArray ) );
   }
 
-  return wData
-  wData = desc_weather(c);
-
-  //if(!wData.image) wData.image = get_image(wData);
+  wData = desc_weather(wData);
 
   wData = fmt_weather(wData);
   //return All this shit as text formatted for a Discord post
@@ -224,42 +222,43 @@ const weather_type = (wData) => {
   return result
 }
 
-const desc_weather = (a) => {
-  a=desc_prec(a);
-  a=desc_temp(a);
-  a=desc_wind(a);
-  a.text=[];
-  if(a.super_desc){
-    a.desc=a.super_desc;
-    a.text=get_text("desc",a.desc,a.text);
-    a.text=get_text("temp",a.temp_desc,a.text)
-  }else if(storm=desc_storm(a)){
-    a.desc=storm;
-    a.text=get_text("desc",a.desc,a.text);
-    if(a.prec_note){
-      a.desc+=", "+a.prec_desc;
-      a.text=get_text("prec",a.prec_desc,a.text)
-    }a.text=get_text("temp",a.temp_desc,a.text);
-    if(/thunderstorm/i.exec(a.desc)&&dice.rand(10)==0){
-      a.desc+=", Tornado";a.text=get_text("wind","tornado",
-      a.text)
+
+const desc_weather = (wData) => {
+  wData = desc_prec( wData );
+  wData = desc_temp( wData );
+  wData = desc_wind( wData );
+  wData.text = [];
+  if( wData.super_desc ){
+    wData.desc = wData.super_desc;
+    wData.text = get_text( "desc", wData.desc, wData.text );
+    wData.text = get_text( "temp", wData.temp_desc, wData.text)
+  }else if( storm=desc_storm( wData )){
+    wData.desc = storm;
+    wData.text = get_text( "desc", wData.desc, wData.text );
+    if( wData.prec_note ){
+      wData.desc += ", " + wData.prec_desc;
+      wData.text = get_text( "prec", wData.prec_desc, wData.text )
+    }wData.text = get_text( "temp", wData.temp_desc, wData.text );
+    if( /thunderstorm/i.exec( wData.desc ) && dice.rand(10) == 0 ){
+      wData.desc += ", Tornado";
+      wData.text = get_text( "wind","tornado", wData.text )
     }
   }else{
-    if(a.prec_desc)a.desc=a.prec_desc;
-    else if(a.wind>=3)a.desc="Windstorm";
-    else if(a.wind>=1)a.desc="Windy";
+    if( wData.prec_desc )wData.desc = wData.prec_desc;
+    else if( wData.wind >= 3 ) wData.desc = "Windstorm";
+    else if( wData.wind >= 1) wData.desc = "Windy";
     else{
-      if(a.temp<32)a.cover-=Math.floor((32-a.temp)/4);
-      a.desc=a.cover>=10
+      if( wData.temp < 32 ) wData.cover -= Math.floor(( 32 - wData.temp )/4 );
+      wData.desc = wData.cover >= 10
         ?"Overcast"
-        :a.cover>=6
+        :wData.cover >= 6
           ?"Cloudy"
           :"Clear"
     }
-    a.text=get_text("prec",a.prec_desc,a.text);
-    a.text=get_text("temp",a.temp_desc,a.text);
-    a.text=get_text("wind",a.wind_desc,a.text)
-  }return a
+    wData.text = get_text( "prec", wData.prec_desc,wData.text );
+    wData.text = get_text( "temp", wData.temp_desc,wData.text );
+    wData.text = get_text( "wind", wData.wind_desc,wData.text )
+  }return wData
 }
 
 const desc_prec = (a) => {
@@ -355,8 +354,8 @@ const desc_storm = (a) => {
           else if(a.wind==3)return"Duststorm"
 }
 
-const get_text = (a,b,d) => {
-  if(a&&b&&(div=$(text_id(a,b))))d.push(div.innerHTML);
+const get_text = ( a, b, d ) => {
+  if( a && b && ( div=$(text_id(a,b)))) d.push(div.innerHTML);
   return d
 }
 
