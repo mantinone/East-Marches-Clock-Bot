@@ -68,10 +68,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         break
       // case "test":
-      // bot.sendMessage({
-      //   to: '423358604444172289',
-      //   message: `This is a test /n \n of the emergency prodcast system.`
-      // })
+      //   console.log(theWeather.getWeather());
       //   break
 
     }

@@ -361,8 +361,8 @@ const desc_storm = (wData) => {
 }
 
 const get_text = ( prefix, type, textArray ) => {
-  if( prefix && type && ( data= descripttion[text_id( prefix, type )] )) {
-    textArray.push(div.innerHTML);
+  if( prefix && type && ( data = descriptions[text_id( prefix, type )] )) {
+    textArray.push( data );
   }
   return textArray
 }
