@@ -29,7 +29,7 @@ const checkAlerts = () => {
 
   let results = {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
-    weatherBool: (hour == '02') && (minute > 29),
+    weatherBool: (hour12 == '03') && (minute > 29),
     minute: minute
   }
   return results
