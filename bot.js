@@ -68,7 +68,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         break
       // case "test":
-      //   console.log(theWeather.getWeather());
+      //   bot.sendMessage({
+      //     to: '423358604444172289',
+      //     message: theWeather.getWeather()
+      //   })
       //   break
 
     }

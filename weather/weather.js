@@ -376,35 +376,35 @@ const clean_type = (a) => {
 const fmt_weather = (wData) => {
   let resultString = ''
 
-    resultString += fmt_stats(wData) + '___',
-    resultString += fmt_desc(wData.text)
+    resultString += fmt_stats(wData),
+    resultString += fmt_desc(wData)
 
   return resultString
 }
 
 const fmt_stats = (wData) => {
-  var results = `**Weather:** ${wData.desc} \n`
+  var results = `**-Weather:**  ${wData.desc} \n`
 
   if(wData.temp_desc){
-    results += `___\n ***Temperature:*** ${wData.temp_desc} \n ***High:*** ${wData.temp_high} \n ***Low:*** ${wData.temp_low} \n ***Relative:*** ${wData.temp_rel} \n`
+    results += `\n**-Temperature:**  ${wData.temp_desc} \n **High:**  ${wData.temp_high.f}°F (${wData.temp_high.c}°C) \n **Low:**  ${wData.temp_low.f}°F (${wData.temp_low.c}°C) \n **Relative:**  ${wData.temp_rel} \n`
   }
   if(wData.wind_desc){
-    results += `___\n ***Wind Force:*** ${wData.wind_desc} \n ***Wind Speed:*** ${wData.wind_speed} \n`
+    results += `\n**-Wind Force:**  ${wData.wind_desc} \n **Wind Speed:**  ${wData.wind_speed.m} mph (${wData.wind_speed.k} kph) \n`
   }
   return results
 }
 
 const fmt_desc = (wData) => {
-  let results = ''
+  let results = '\n'
 
   if( wData.super_desc ){
-    results += `***Supernatural Conditions*** \n`
+    results += `**Supernatural Conditions** \n`
   } else {
-    results += `***Conditions*** \n`
+    results += `**-Conditions-** \n`
   }
 
   wData.text.forEach( (i) => {
-    results += `***${i.name}*** \n`
+    results += `**${i.name}** \n`
   });
 
   return results
