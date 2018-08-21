@@ -1,6 +1,7 @@
 var Discord = require('discord.io')
 var logger = require('winston')
 var clock = require('./clock/clock.js')
+var theWeather = require('./weather/weather.js')
 require('dotenv').config()
 
 logger.remove(logger.transports.Console)
@@ -36,7 +37,14 @@ setInterval( () => {
       })
     }
   }, 1000*60*minutes)
-  
+
+  if( info.weatherBool ){
+    bot.sendMessage({
+      to: '427869441741684748',
+      message: theWeather.getWeather()
+    })
+  }
+
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
@@ -67,13 +75,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         break
       // case "test":
-      //   let info = clock.testCrafting()
-      //   console.log(info);
       //   bot.sendMessage({
       //     to: '423358604444172289',
-      //     message: `${info.craftTime} ${info.minute}`
+      //     message: theWeather.getWeather()
       //   })
-        break
+      //   break
+
     }
   }
 })

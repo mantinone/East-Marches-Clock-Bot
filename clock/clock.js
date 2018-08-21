@@ -24,10 +24,12 @@ const checkAlerts = () => {
   let nowMoment = moment.tz('UTC')
   let day = nowMoment.format('ddd')
   let hour = nowMoment.format('HH')
+  let hour12 = nowMoment.format('hh')
   let minute = nowMoment.format('mm')
 
   let results = {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
+    weatherBool: (hour == '02') && (minute > 29),
     minute: minute
   }
   return results
@@ -50,4 +52,10 @@ const currentGameTime = () => {
   return theDate
 }
 
-module.exports = {printDate, checkDate, checkAlerts }
+const getSeasonModifier = ( day ) => {
+  let radianConversion = Math.PI/182
+  let dayOfYear = currentGameTime().format("DDD")
+  return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
+}
+
+module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier }
