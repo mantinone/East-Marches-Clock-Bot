@@ -24,10 +24,12 @@ const checkAlerts = () => {
   let nowMoment = moment.tz('UTC')
   let day = nowMoment.format('ddd')
   let hour = nowMoment.format('HH')
+  let hour12 = nowMoment.format('hh')
   let minute = nowMoment.format('mm')
 
   let results = {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
+    weatherBool: (hour == '02') && (minute > 29),
     minute: minute
   }
   return results

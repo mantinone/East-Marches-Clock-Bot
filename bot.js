@@ -38,6 +38,13 @@ setInterval( () => {
     }
   }, 1000*60*minutes)
 
+  if( info.weatherBool ){
+    bot.sendMessage({
+      to: '427869441741684748',
+      message: theWeather.getWeather()
+    })
+  }
+
 },  1000*60*30)
 
 bot.on('message', function (user, userID, channelID, message, evt) {
