@@ -138,10 +138,9 @@ const weather= {
   ]
 }
 
-//Suernatural ranges, 0, 5, 20, 50
 const getWeather = () => {
   var climate = CLIMATE
-  season = "spring"//clock.getSeasonModifier()
+  season = "spring"
   supernaturalChance = SUPERNATURALCHANCE
   wData = {climate:climate,season:season};
 
@@ -164,8 +163,7 @@ const getWeather = () => {
 
   wData = desc_weather(wData);
 
-  wData = fmt_weather(wData);
-  //return All this shit as text formatted for a Discord post
+  return fmt_weather(wData);
 }
 
 //Adds modifiers to the weather object.  Straight number, object, rolls dice, or flat bonus
@@ -375,61 +373,41 @@ const clean_type = (a) => {
   return a.toLowerCase().replace(/['"]/g,"").replace(/ /g,"_")
 }
 
-// const get_image = (a) => {
-//   for(i=0;i<weather.image_list.length;i++){
-//     var b=weather.image_list[i];
-//     if(b.regex.exec(a.desc))return b.image
-//   }
-//   return"clear.jpg"
-// }
+const fmt_weather = (wData) => {
+  let resultString = ''
 
-const fmt_weather = (a) => {
-  a={
-    image:eval_fmt("image",{image:a.image}),
-    stats:fmt_stats(a),
-    desc:fmt_desc(a.text)
-  };
-  return eval_fmt("weather",a)
+    resultString += fmt_stats(wData) + '___',
+    resultString += fmt_desc(wData.text)
+
+  return resultString
 }
 
-const fmt_stats = (a) => {
-  var b=[fmt_stat("Description",a.desc)];
+const fmt_stats = (wData) => {
+  var results = `**Weather:** ${wData.desc} \n`
 
-  if(a.temp_desc){
-    b.push(fmt.hr);
-    b.push(fmt_stat("Temperature",a.temp_desc));
-    b.push(fmt_stat("High",a.temp_high));
-    b.push(fmt_stat("Low",a.temp_low));
-    b.push(fmt_stat("Relative",a.temp_rel))
+  if(wData.temp_desc){
+    results += `___\n ***Temperature:*** ${wData.temp_desc} \n ***High:*** ${wData.temp_high} \n ***Low:*** ${wData.temp_low} \n ***Relative:*** ${wData.temp_rel} \n`
   }
-  if(a.wind_desc){
-    b.push(fmt.hr);
-    b.push(fmt_stat("Wind Force",a.wind_desc));
-    b.push(fmt_stat("Wind Speed",a.wind_speed))
+  if(wData.wind_desc){
+    results += `___\n ***Wind Force:*** ${wData.wind_desc} \n ***Wind Speed:*** ${wData.wind_speed} \n`
+  }
+  return results
+}
+
+const fmt_desc = (wData) => {
+  let results = ''
+
+  if( wData.super_desc ){
+    results += `***Supernatural Conditions*** \n`
+  } else {
+    results += `***Conditions*** \n`
   }
 
-  return b.join("")
-}
+  wData.text.forEach( (i) => {
+    results += `***${i.name}*** \n`
+  });
 
-const fmt_stat = (a,b) => {
-  if(!b) return"";
-
-  return eval_fmt("stat",{key:a,value:b})
-}
-
-const fmt_desc = (a) => {
-  list=a.map(fmt_text);
-
-  return fmt.hr+list.join("")
-}
-
-const fmt_text = (a) => {
-  if(!a)return"";
-  return eval_fmt("text",{text:a})
-}
-
-const eval_fmt = (a,b) => {
-  return fmt[a].evaluate(b)
+  return results
 }
 
 module.exports = { getWeather }
