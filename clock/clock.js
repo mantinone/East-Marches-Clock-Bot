@@ -52,9 +52,9 @@ const currentGameTime = () => {
   return theDate
 }
 
-const getSeasonModifier = ( day ) => {
+const getSeasonModifier = ( day = 0 ) => {
   let radianConversion = Math.PI/182
-  let dayOfYear = currentGameTime().format("DDD")
+  let dayOfYear = parseInt( currentGameTime().format("DDD")) + parseInt( day )
   return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 

@@ -62,6 +62,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: clock.printDate()
         })
         break
+      case "weather":
+        bot.sendMessage({
+          to: channelID,
+          message: theWeather.getWeather( bonus ) 
+        })
+        break
       case "mona":
         bot.deleteMessage({
           channelID: channelID,
