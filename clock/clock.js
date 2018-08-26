@@ -26,11 +26,13 @@ const checkAlerts = () => {
   let hour = nowMoment.format('HH')
   let hour12 = nowMoment.format('hh')
   let minute = nowMoment.format('mm')
+  let second = nowMoment.format('ss')
 
   let results = {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
     weatherBool: (hour12 == '02') && (minute > 29),
-    minute: minute
+    minute: minute,
+    second: ss
   }
   return results
 }
