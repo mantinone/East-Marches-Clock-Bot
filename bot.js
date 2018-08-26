@@ -24,6 +24,7 @@ bot.on('ready', function (evt) {
 setInterval( () => {
   let info = clock.checkAlerts()
   let minutes = info.minute > 29 ? 60 - info.minute : 30 - info.minute
+  let firstHalfOfMinute = info.second > 29 ? -30 : 0
 
   setTimeout( () => {
     bot.sendMessage({
@@ -36,7 +37,7 @@ setInterval( () => {
         message: `Hello @everyone!  A new crafting week has begun!`
       })
     }
-  }, 1000*60*minutes)
+  }, 1000*60*minutes - 1000*firstHalfOfMinute )
 
   if( info.weatherBool ){
     bot.sendMessage({
@@ -60,6 +61,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         bot.sendMessage({
           to: channelID,
           message: clock.printDate()
+        })
+        break
+      case "weather":
+        bot.sendMessage({
+          to: channelID,
+          message: theWeather.getWeather( bonus )
         })
         break
       case "mona":

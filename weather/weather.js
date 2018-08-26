@@ -138,7 +138,7 @@ const weather= {
   ]
 }
 
-const getWeather = () => {
+const getWeather = ( day = 0 ) => {
   var climate = CLIMATE
   season = "spring"
   supernaturalChance = SUPERNATURALCHANCE
@@ -148,7 +148,7 @@ const getWeather = () => {
   wData = mod_weather(wData,weather[climate].mod);
   wData = mod_weather(wData,weather[season].mod);
 
-  wData.t_base += Math.floor(wData.s_dev*clock.getSeasonModifier()); //Modifies tbase up or down 20 degrees based on season
+  wData.t_base += Math.floor(wData.s_dev*clock.getSeasonModifier( day )); //Modifies tbase up or down 20 degrees based on season
   wData.temp = wData.t_base+dice.rand(wData.t_dev);
 
   climate = weather[climate].forecast; //This sub object randomly modifies temp up or down, or determines chance of storms and precipitation

@@ -26,11 +26,13 @@ const checkAlerts = () => {
   let hour = nowMoment.format('HH')
   let hour12 = nowMoment.format('hh')
   let minute = nowMoment.format('mm')
+  let second = nowMoment.format('ss')
 
   let results = {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
-    weatherBool: (hour == '02') && (minute > 29),
-    minute: minute
+    weatherBool: (hour12 == '02') && (minute > 29),
+    minute: minute,
+    second: ss
   }
   return results
 }
@@ -52,9 +54,9 @@ const currentGameTime = () => {
   return theDate
 }
 
-const getSeasonModifier = ( day ) => {
+const getSeasonModifier = ( day = 0 ) => {
   let radianConversion = Math.PI/182
-  let dayOfYear = currentGameTime().format("DDD")
+  let dayOfYear = parseInt( currentGameTime().format("DDD")) + parseInt( day )
   return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 
