@@ -24,7 +24,7 @@ bot.on('ready', function (evt) {
 setInterval( () => {
   let info = clock.checkAlerts()
   let minutes = info.minute > 29 ? 60 - info.minute : 30 - info.minute
-  let firstHalfOfMinute = info.second > 29 ? -30 : 0
+  let firstHalfOfMinute = info.second > 29 ? 30 : 0
 
   setTimeout( () => {
     bot.sendMessage({
@@ -82,10 +82,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         break
       // case "test":
-      //   bot.sendMessage({
-      //     to: '423358604444172289',
-      //     message: theWeather.getWeather()
-      //   })
+      //   let info = clock.checkAlerts()
+      //   let minutes = info.minute > 29 ? 60 - info.minute : 30 - info.minute
+      //   let firstHalfOfMinute = info.second > 29 ? 30 : 0
+      //   console.log(1000*60*minutes - 1000*firstHalfOfMinute);
       //   break
 
     }
