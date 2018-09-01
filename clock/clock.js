@@ -32,7 +32,7 @@ const checkAlerts = () => {
     craftBool: (day == 'Sun') && (hour == '23') && (minute > 29 ),
     weatherBool: (hour12 == '02') && (minute > 29),
     minute: minute,
-    second: ss
+    second: second
   }
   return results
 }
@@ -45,11 +45,12 @@ const printDate = ( section ) => {
   return `${firstHalf} ${month} ${lastHalf}`
 }
 
+//Skipping 37 days because of the Gilnaith Time Skip.  Originall days subtracted was 131
 const currentGameTime = () => {
   let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
   let difference = moment.tz('UTC').diff(theDate)
   theDate.add(difference*2, 'ms')
-  theDate.subtract(131, 'days')
+  theDate.subtract(94, 'days')
   theDate.subtract(1777, 'Years')
   return theDate
 }
