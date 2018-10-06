@@ -81,12 +81,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
-      // case "test":
-      //   let info = clock.checkAlerts()
-      //   let minutes = info.minute > 29 ? 60 - info.minute : 30 - info.minute
-      //   let firstHalfOfMinute = info.second > 29 ? 30 : 0
-      //   console.log(1000*60*minutes - 1000*firstHalfOfMinute);
-      //   break
+      case "test":
+        bot.sendMessage({
+          to: channelID,
+          message: theWeather.getWeather()
+        })
+        break
 
     }
   }

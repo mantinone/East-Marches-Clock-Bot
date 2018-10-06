@@ -57,8 +57,25 @@ const currentGameTime = () => {
 
 const getSeasonModifier = ( day = 0 ) => {
   let radianConversion = Math.PI/182
-  let dayOfYear = parseInt( currentGameTime().format("DDD")) + parseInt( day )
+  let dayOfYear = parseInt( currentGameTime().format("DDD")) + parseInt( day ) + 10
   return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 
-module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier }
+const sunriseSunset = ( offsetMod = 0 ) => {
+  const offsetMinutes = 128
+  let sunriseTime = moment("06:09","HH:mm")
+  let sunsetTime = moment("18:11","HH:mm")
+
+  let sunsetOffset = offsetMinutes * offsetMod
+  let sunriseOffset = sunsetOffset * -1
+
+  sunriseTime.add(sunriseOffset, 'minutes')
+  sunsetTime.add(sunsetOffset, 'minutes')
+
+  return {
+    sunrise: sunriseTime.format('hh:mm A'),
+    sunset: sunsetTime.format('hh:mm A')
+    }
+}
+
+module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset }

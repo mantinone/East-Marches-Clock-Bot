@@ -148,7 +148,10 @@ const getWeather = ( day = 0 ) => {
   wData = mod_weather(wData,weather[climate].mod);
   wData = mod_weather(wData,weather[season].mod);
 
-  wData.t_base += Math.floor(wData.s_dev*clock.getSeasonModifier( day )); //Modifies tbase up or down 20 degrees based on season
+  let seasonModifier = clock.getSeasonModifier( day )
+  wData.sunTimes = clock.sunriseSunset( seasonModifier )
+
+  wData.t_base += Math.floor(wData.s_dev*seasonModifier); //Modifies tbase up or down 20 degrees based on season
   wData.temp = wData.t_base+dice.rand(wData.t_dev);
 
   climate = weather[climate].forecast; //This sub object randomly modifies temp up or down, or determines chance of storms and precipitation
@@ -378,6 +381,7 @@ const fmt_weather = (wData) => {
 
     resultString += fmt_stats(wData),
     resultString += fmt_desc(wData)
+    resultString += fmt_sunTimes(wData)
 
   return resultString
 }
@@ -408,6 +412,10 @@ const fmt_desc = (wData) => {
   });
 
   return results
+}
+
+const fmt_sunTimes = (wData) => {
+  return `\n **Sunrise:** ${wData.sunTimes.sunrise} \n **Sunset:** ${wData.sunTimes.sunset}`
 }
 
 module.exports = { getWeather }
