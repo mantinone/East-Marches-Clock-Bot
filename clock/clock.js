@@ -42,7 +42,7 @@ const printDate = ( section ) => {
   let firstHalf = theDate.format('Y: ddd,')
   let month = emMonths[theDate.format('MMMM')]
   let lastHalf = theDate.format('Do, HH:mm (h:mm A)')
-  return `${firstHalf} ${month} ${lastHalf}`
+  return `${firstHalf} ${month} \n "**Hello Vareholm, it is the hour of ${lastHalf}**"`
 }
 
 //Skipping 37 days because of the Gilnaith Time Skip.  Originall days subtracted was 131
