@@ -407,10 +407,9 @@ const fmt_desc = (wData) => {
     results += `**-Conditions-** \n`
   }
 
-  // wData.text.forEach( (i) => {
-  //   results += `**${i.name}** \n`
-  // });
-  results += `The words "Hello Vareholm, it is the hour of-," followed by the current time, are written in cloud, in Arias' handwriting, in the sky.`
+  wData.text.forEach( (i) => {
+    results += `**${i.name}** \n`
+  });
 
   return results
 }
