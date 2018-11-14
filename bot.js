@@ -52,7 +52,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
   if (message.substring(0,1) == '!'){
     var args = message.substring(1).split(' ')
     var cmd = args[0]
-    var bonus = args[1]
+    var arg1 = args[1]
 
     args = args.splice(1)
     switch(cmd) {
@@ -66,7 +66,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
       case "weather":
         bot.sendMessage({
           to: channelID,
-          message: theWeather.getWeather( bonus )
+          message: theWeather.getWeather( arg1 )
         })
         break
       case "mona":
@@ -78,15 +78,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         })
         bot.sendMessage({
           to: '424793864088453130',
-          message: `!roll 1d20 + ${bonus||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
+          message: `!roll 1d20 + ${arg1||0} Rolling Insight for <@${userID}> because <@225782923490492417> did or said something.`
         })
         break
-      case "test":
+      case "whatday":
         bot.sendMessage({
           to: channelID,
-          message: theWeather.getWeather()
+          message: clock.whatDay(arg1)
         })
         break
+      // case "test":
+      //   bot.sendMessage({
+      //     to: channelID,
+      //     message: theWeather.getWeather()
+      //   })
+      //   break
 
     }
   }
