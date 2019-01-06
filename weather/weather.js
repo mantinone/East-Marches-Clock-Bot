@@ -106,7 +106,7 @@ const weather= {
     ],
     thunderstorm:[
       {super_desc:"Arcane Tempest",wind:3},
-      {super_desc:"Ghoststorm",temp:"-20",wind:4}
+      {super_desc:"Darkning Storm",temp:"-20",wind:4}
     ],
     snowstorm:[
       {super_desc:"Animus Blizzard",wind:4},
