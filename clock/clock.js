@@ -39,22 +39,16 @@ const checkAlerts = () => {
   return results
 }
 
-const printDate = ( section ) => {
+const printCurrentDate = ( ) => {
   let theDate = currentGameTime()
+  return formatGameDate( theDate )
+}
+
+const formatGameDate = ( theDate ) => {
   let firstHalf = theDate.format('Y: ddd,')
   let month = emMonths[theDate.format('MMMM')]
   let lastHalf = theDate.format('(MMM) Do, HH:mm (h:mm A)')
   return `${firstHalf} ${month} ${lastHalf}`
-}
-
-//Skipping 37 days because of the Gilnaith Time Skip.  Original days subtracted was 131
-const currentGameTime = () => {
-  let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
-  let difference = moment.tz('UTC').diff(theDate)
-  theDate.add(difference*2, 'ms')
-  theDate.subtract(OFFSET_DAYS, 'days')
-  theDate.subtract(1777, 'Years')
-  return theDate
 }
 
 const getSeasonModifier = ( day = 0 ) => {
@@ -80,6 +74,16 @@ const sunriseSunset = ( offsetMod = 0 ) => {
     }
 }
 
+//Skipping 37 days because of the Gilnaith Time Skip.  Original days subtracted was 131
+const currentGameTime = () => {
+  let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
+  let difference = moment.tz('UTC').diff(theDate)
+  theDate.add(difference*2, 'ms')
+  theDate.subtract(OFFSET_DAYS, 'days')
+  theDate.subtract(1777, 'Years')
+  return theDate
+}
+
 const whatDay = ( irlDate ) => {
   let offset = OFFSET_DAYS
   let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
@@ -96,10 +100,7 @@ const whatDay = ( irlDate ) => {
   theDate.subtract(offset, 'days')
   theDate.subtract(1777, 'Years')
 
-  let firstHalf = theDate.format('Y: ddd,')
-  let month = emMonths[theDate.format('MMMM')]
-  let lastHalf = theDate.format('(MMM) Do, HH:mm (h:mm A)')
-  return `${firstHalf} ${month} ${lastHalf}`
+  return formatGameDate( theDate )
 }
 
-module.exports = {printDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset, whatDay }
+module.exports = {printCurrentDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset, whatDay }
