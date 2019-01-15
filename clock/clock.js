@@ -43,7 +43,7 @@ const printDate = ( section ) => {
   let theDate = currentGameTime()
   let firstHalf = theDate.format('Y: ddd,')
   let month = emMonths[theDate.format('MMMM')]
-  let lastHalf = theDate.format('Do, HH:mm (h:mm A)')
+  let lastHalf = theDate.format('(MMM) Do, HH:mm (h:mm A)')
   return `${firstHalf} ${month} ${lastHalf}`
 }
 
@@ -98,7 +98,7 @@ const whatDay = ( irlDate ) => {
 
   let firstHalf = theDate.format('Y: ddd,')
   let month = emMonths[theDate.format('MMMM')]
-  let lastHalf = theDate.format('Do, HH:mm (h:mm A)')
+  let lastHalf = theDate.format('(MMM) Do, HH:mm (h:mm A)')
   return `${firstHalf} ${month} ${lastHalf}`
 }
 
