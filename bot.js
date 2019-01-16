@@ -29,7 +29,7 @@ setInterval( () => {
   setTimeout( () => {
     bot.sendMessage({
       to: '427869441741684748',
-      message: clock.printDate()
+      message: clock.printCurrentDate()
     })
     if( info.craftBool ){
       bot.sendMessage({
@@ -60,7 +60,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
       case "date":
         bot.sendMessage({
           to: channelID,
-          message: clock.printDate()
+          message: clock.printCurrentDate()
         })
         break
       case "weather":
