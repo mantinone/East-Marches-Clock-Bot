@@ -40,7 +40,7 @@ const checkAlerts = () => {
 }
 
 const printCurrentDate = ( ) => {
-  let theDate = currentGameTime()
+  let theDate = gameTime()
   return formatGameDate( theDate )
 }
 
@@ -53,7 +53,7 @@ const formatGameDate = ( theDate ) => {
 
 const getSeasonModifier = ( day = 0 ) => {
   let radianConversion = Math.PI/182
-  let dayOfYear = parseInt( currentGameTime().format("DDD")) + parseInt( day ) + 10
+  let dayOfYear = parseInt( gameTime().format("DDD")) + parseInt( day ) + 10
   return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 
@@ -74,33 +74,22 @@ const sunriseSunset = ( offsetMod = 0 ) => {
     }
 }
 
-//Skipping 37 days because of the Gilnaith Time Skip.  Original days subtracted was 131
-const currentGameTime = () => {
+const gameTime = ( irlDate ) => {
   let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
-  let difference = moment.tz('UTC').diff(theDate)
-  theDate.add(difference*2, 'ms')
-  theDate.subtract(OFFSET_DAYS, 'days')
-  theDate.subtract(1777, 'Years')
-  return theDate
-}
-
-const whatDay = ( irlDate ) => {
-  let offset = OFFSET_DAYS
-  let theDate = moment.tz("2018-02-09T00:00:00", 'UTC')
-  let irlMoment = moment.tz(irlDate, 'UTC')
-
-  if (irlMoment.isBefore( moment.tz('2018-08-31', 'UTC'))) {
-    console.log( irlMoment, " before");
-    offset = ORIGINAL_OFFSET
-  }
+  let irlMoment = irlDate?moment.tz(irlDate,'UTC'):moment.tz('UTC')
+  let offset = irlMoment.isBefore( moment.tz('2018-08-31', 'UTC'))?ORIGINAL_OFFSET:OFFSET_DAYS
 
   let difference = irlMoment.diff(theDate)
   theDate.add(difference*2, 'ms')
 
-  theDate.subtract(offset, 'days')
+  theDate.subtract(OFFSET_DAYS, 'days')
   theDate.subtract(1777, 'Years')
 
-  return formatGameDate( theDate )
+  return theDate
+}
+
+const whatDay = ( irlDate ) => {
+  return formatGameDate( gameTime(irlDate) )
 }
 
 module.exports = {printCurrentDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset, whatDay }
