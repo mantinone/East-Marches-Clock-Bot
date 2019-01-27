@@ -93,7 +93,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
       //     message: theWeather.getWeather()
       //   })
       //   break
-
     }
   }
 })
