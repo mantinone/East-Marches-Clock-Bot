@@ -18,7 +18,8 @@ const weather= {
   //   }
   // },
   temperate:{
-    mod:{t_base:40,t_dev:20,s_dev:20},
+    //mod:{t_base:40,t_dev:20,s_dev:20},
+    mod:{t_base:30,t_dev:20,s_dev:20},
     forecast:{
       dice:"1d100",
       "01-70":{},
@@ -387,13 +388,14 @@ const fmt_weather = (wData) => {
 }
 
 const fmt_stats = (wData) => {
-  var results = `**-Weather:**  ${wData.desc} \n`
+  var results = `**Weather:** Severe Thunderstorm \n`//`**-Weather:**  ${wData.desc} \n`
 
   if(wData.temp_desc){
     results += `\n**-Temperature:**  ${wData.temp_desc} \n **High:**  ${wData.temp_high.f}°F (${wData.temp_high.c}°C) \n **Low:**  ${wData.temp_low.f}°F (${wData.temp_low.c}°C) \n **Relative:**  ${wData.temp_rel} \n`
   }
   if(wData.wind_desc){
-    results += `\n**-Wind Force:**  ${wData.wind_desc} \n **Wind Speed:**  ${wData.wind_speed.m} mph (${wData.wind_speed.k} kph) \n`
+    results += `\n**-Wind Force:**  Wind Storm \n **Wind Speed:**  50 mph (80 kph) \n`
+    //`\n**-Wind Force:**  ${wData.wind_desc} \n **Wind Speed:**  ${wData.wind_speed.m} mph (${wData.wind_speed.k} kph) \n`
   }
   return results
 }
@@ -407,9 +409,9 @@ const fmt_desc = (wData) => {
     results += `**-Conditions-** \n`
   }
 
-  wData.text.forEach( (i) => {
-    results += `**${i.name}** \n`
-  });
+  //wData.text.forEach( (i) => {
+    results += `**Severe Thunderstorm and Windstorm** \n Disadvantage on Ranged Attacks \n`//`**${i.name}** \n`
+  //});
 
   return results
 }
