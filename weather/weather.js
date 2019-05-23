@@ -394,7 +394,7 @@ const fmt_stats = (wData) => {
     results += `\n**-Temperature:**  ${wData.temp_desc} \n **High:**  ${wData.temp_high.f}°F (${wData.temp_high.c}°C) \n **Low:**  ${wData.temp_low.f}°F (${wData.temp_low.c}°C) \n **Relative:**  ${wData.temp_rel} \n`
   }
   if(wData.wind_desc){
-    results += `\n**-Wind Force:**  Wind Storm \n **Wind Speed:**  50 mph (80 kph) \n`
+    results += `\n**-Wind Force:**  Wind Storm \n **Wind Speed:**  Pretty Windy! (Rather Windy kph) \n`
     //`\n**-Wind Force:**  ${wData.wind_desc} \n **Wind Speed:**  ${wData.wind_speed.m} mph (${wData.wind_speed.k} kph) \n`
   }
   return results
@@ -410,7 +410,7 @@ const fmt_desc = (wData) => {
   }
 
   //wData.text.forEach( (i) => {
-    results += `**Severe Thunderstorm and Windstorm** \n Disadvantage on Ranged Attacks \n`//`**${i.name}** \n`
+    results += `**Severe Thunderstorm and Windstorm** \n Disadvantage on Ranged Weapon Attacks \n`//`**${i.name}** \n`
   //});
 
   return results
