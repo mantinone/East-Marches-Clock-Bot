@@ -83,7 +83,7 @@ const gameTime = ( irlDate ) => {
   theDate.add(difference*2, 'ms')
 
   theDate.subtract(OFFSET_DAYS, 'days')
-  theDate.subtract(1777, 'Years')
+  theDate.subtract(1774, 'Years')
 
   return theDate
 }
