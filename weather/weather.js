@@ -407,10 +407,10 @@ const fmt_desc = (wData) => {
     results += `**-Conditions-** \n`
   }
 
-  // wData.text.forEach( (i) => {
-  //   results += `**${i.name}** \n`
-  // });
-  results += `**Distant Thunder and Dark Clouds** \n`
+  wData.text.forEach( (i) => {
+    results += `**${i.name}** \n`
+  });
+
   return results
 }
 
