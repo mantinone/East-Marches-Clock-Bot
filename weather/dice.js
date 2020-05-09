@@ -5,7 +5,7 @@
 // all rights reserved.
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// configuration.
+// configuratio
 
   var fn   = /([a-z]*)\(([^()]*?)\)/;
   var dice = /(\d*)d(\d+)/;
