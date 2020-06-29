@@ -411,8 +411,6 @@ const fmt_desc = (wData) => {
     results += `**${i.name}** \n`
   });
 
-  results += "**And Tumbleweeds.  So Many Of Them.  My god.  Where did all these tumbleweeds come from?** \n"
-
   return results
 }
 
