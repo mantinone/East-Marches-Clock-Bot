@@ -18,7 +18,8 @@ const weather= {
   //   }
   // },
   temperate:{
-    mod:{t_base:40,t_dev:20,s_dev:20},
+    //mod:{t_base:40,t_dev:20,s_dev:20},
+    mod:{t_base:-10,t_dev:5,s_dev:20},
     forecast:{
       dice:"1d100",
       "01-70":{},
@@ -315,11 +316,12 @@ const desc_temp = (wData) => {
               ? "Very Hot"
               : "Moderate";
 
-  wData.temp_rel=wData.temp_f< coldRange
-    ? "Colder than normal"
-    : wData.temp_f > warmRange
-      ? "Warmer than normal"
-      : "Normal";
+  // wData.temp_rel=wData.temp_f< coldRange
+  //   ? "Colder than normal"
+  //   : wData.temp_f > warmRange
+  //     ? "Warmer than normal"
+  //     : "Normal";
+  wData.temp_rel = "Extremely Cold"
 
   return wData
 }
