@@ -72,7 +72,7 @@ const getLunarPhase = ( day = 0 ) => {
   let fullMoonDate = moment.tz("0249-10-16T00:00:00", 'UTC')
   let difference = gameTime().diff(fullMoonDate, 'days')
   let mod = difference%29
-  let phase = lunarPhases[Math.ceil(mod/3.625)]
+  let phase = lunarPhases[Math.ceil((mod+0.000001)/3.625)]
   return `**-Lunar Phase:** ${phase} \n`
 }
 
