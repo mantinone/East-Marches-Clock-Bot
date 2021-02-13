@@ -42,7 +42,7 @@ setInterval( () => {
   if( info.weatherBool ){
     bot.sendMessage({
       to: '427869441741684748',
-      message: theWeather.getWeather()
+      message: theWeather.getWeather() + clock.getLunarPhase()
     })
   }
 
@@ -87,12 +87,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           message: clock.whatDay(arg1)
         })
         break
-      // case "test":
-      //   bot.sendMessage({
-      //     to: channelID,
-      //     message: theWeather.getWeather()
-      //   })
-      //   break
+      case "test":
+        bot.sendMessage({
+          to: channelID,
+          message: clock.getLunarPhase() + theWeather.getWeather() 
+        })
+        break
     }
   }
 })

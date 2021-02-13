@@ -17,6 +17,17 @@ const emMonths = {
   'December': 'Fellnight' ,
 }
 
+const lunarPhases = {
+  1: "Full Moon",
+  2: "Waning Gibbous",
+  3: "Waning Quarter",
+  4: "Waning Crescent",
+  5: "New Moon",
+  6: "Waxing Crescent",
+  7: "Waxing Quarter",
+  8: "Waxing Gibbous"
+}
+
 const checkDate = () => {
   let day = moment.tz('UTC')
   return day.format('MMMM Do, HH:mm')
@@ -57,6 +68,14 @@ const getSeasonModifier = ( day = 0 ) => {
   return Math.cos((dayOfYear * radianConversion)+Math.PI) //Should give us -1 on Dec 31st and +1 at the end of June
 }
 
+const getLunarPhase = ( day = 0 ) => {
+  let fullMoonDate = moment.tz("0249-10-16T00:00:00", 'UTC')
+  let difference = gameTime().diff(fullMoonDate, 'days')
+  let mod = difference%29
+  let phase = lunarPhases[Math.ceil(mod/3.625)]
+  return `**-Lunar Phase:** ${phase} \n`
+}
+
 const sunriseSunset = ( offsetMod = 0 ) => {
   const offsetMinutes = 128
   let sunriseTime = moment("06:09","HH:mm")
@@ -92,4 +111,4 @@ const whatDay = ( irlDate ) => {
   return formatGameDate( gameTime(irlDate) )
 }
 
-module.exports = {printCurrentDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset, whatDay }
+module.exports = {printCurrentDate, checkDate, checkAlerts, getSeasonModifier, sunriseSunset, whatDay, getLunarPhase }
