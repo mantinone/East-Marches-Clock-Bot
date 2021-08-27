@@ -36,6 +36,10 @@ setInterval( () => {
         to: '422936057101680640',
         message: `Hello @everyone!  A new crafting week has begun!`
       })
+      bot.sendMessage({
+        to: '847527131197603848',
+        message: `Hello @everyone!  It's a new crafting week!`
+      })
     }
   }, 1000*60*minutes - 1000*firstHalfOfMinute )
 
