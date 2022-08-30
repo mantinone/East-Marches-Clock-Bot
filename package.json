@@ -21,7 +21,7 @@
     "discord.io": "github:woor/discord.io#gateway_v6",
     "dotenv": "^5.0.1",
     "moment": "2.20.1",
-    "moment-timezone": "0.5.14",
+    "moment-timezone": "0.5.35",
     "winston": "^2.4.0"
   }
 }
